@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0ps7b1tlyow5"]
+
+[ext_resource type="Script" path="res://Tunnel/path_generation.gd" id="1_wn0ls"]
+[ext_resource type="PackedScene" uid="uid://jtbi8up55gbx" path="res://Tunnel/tunnel_path_3d.tscn" id="2_j0kf6"]
+[ext_resource type="PackedScene" uid="uid://bjpnngd0pplav" path="res://Aliens/tunnel_wall_effect.tscn" id="3_5cgr5"]
+
+[node name="Pathing" type="Node3D"]
+script = ExtResource("1_wn0ls")
+PathObject = ExtResource("2_j0kf6")
+PathRadius = 40.0
+PathSegmentObject = ExtResource("3_5cgr5")
+PathSegmentLength = 30.0

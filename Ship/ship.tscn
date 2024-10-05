@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://Ship/ship_controls.gd" id="1_yjlcn"]
 [ext_resource type="PackedScene" uid="uid://covtchtsxv2rj" path="res://Ship/Ship_NoGun.glb" id="2_tolwi"]
-[ext_resource type="PackedScene" uid="uid://2vn130y13nm" path="res://Ship/player.tscn" id="2_v3jik"]
 [ext_resource type="PackedScene" uid="uid://dqeno0n7savjs" path="res://Ship/Ship_Gun.glb" id="3_hxn21"]
 [ext_resource type="Script" path="res://Ship/gun_controls.gd" id="3_j4hhl"]
+[ext_resource type="PackedScene" uid="uid://2vn130y13nm" path="res://Ship/Player/player.tscn" id="5_rbt8u"]
 [ext_resource type="Script" path="res://Ship/interactive.gd" id="6_2eubl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mtawh"]
@@ -28,6 +28,8 @@ can_sleep = false
 angular_damp_mode = 1
 angular_damp = 5.0
 script = ExtResource("1_yjlcn")
+MinSpeed = 50.0
+MaxSpeed = 150.0
 TurnAccel = 5.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -65,7 +67,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.929, 0.741, -0.934)
 [node name="Player Position" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.500076, 0.40535)
 
-[node name="Player" parent="Player Position" instance=ExtResource("2_v3jik")]
+[node name="Player" parent="Player Position" instance=ExtResource("5_rbt8u")]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96046e-08, 0.792523, 0.218585)
@@ -105,3 +107,23 @@ texture = SubResource("ViewportTexture_n766g")
 [node name="CSGBox3D2" type="CSGBox3D" parent="GunControlsColl"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78814e-07, -2.98023e-08)
 size = Vector3(1.22485, 0.034668, 1)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.503005, -7.55581e-08, 0.864284, 0, -1, -8.74228e-08, 0.864284, 4.39741e-08, -0.503005, 0, 0, 2.78426)
+spot_range = 100.0
+spot_attenuation = 0.336359
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(0.50302, -4.39754e-08, -0.864275, -8.74228e-08, -1, 0, -0.864275, 7.55573e-08, -0.50302, 0, 0, 2.78426)
+spot_range = 100.0
+spot_attenuation = 0.336359
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 0, -4.37114e-08, 0.5, -0.866025, 7.57103e-08, -0.866025, -0.5, 0, 0, 2.78426)
+spot_range = 100.0
+spot_attenuation = 0.336359
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="."]
+transform = Transform3D(-1, 7.57103e-08, -4.37114e-08, 0, 0.5, 0.866025, 8.74228e-08, 0.866025, -0.5, 0, 0, 2.78426)
+spot_range = 100.0
+spot_attenuation = 0.336359

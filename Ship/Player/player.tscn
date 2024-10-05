@@ -1,14 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://2vn130y13nm"]
 
-[ext_resource type="Script" path="res://Ship/player.gd" id="1_8tabe"]
-[ext_resource type="Script" path="res://Ship/player_cam.gd" id="1_echxe"]
+[ext_resource type="Script" path="res://Ship/Player/player.gd" id="1_bdi83"]
+[ext_resource type="Script" path="res://Ship/Player/player_cam.gd" id="2_bepfa"]
 
 [node name="Player" type="Node3D"]
-script = ExtResource("1_8tabe")
+script = ExtResource("1_bdi83")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 current = true
-script = ExtResource("1_echxe")
+script = ExtResource("2_bepfa")
 
 [node name="InteractionRayCast" type="RayCast3D" parent="Camera3D"]
 unique_name_in_owner = true

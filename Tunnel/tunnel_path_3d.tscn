@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://jtbi8up55gbx"]
+
+[sub_resource type="Curve3D" id="Curve3D_p2xh3"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 15, 0, 0, 0, -6.5749, 12.2108, -26.0252, 6.5749, -12.2108, 26.0252, 30, 0, 30),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="TunnelPath3D" type="Path3D"]
+curve = SubResource("Curve3D_p2xh3")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="."]
+loop = false

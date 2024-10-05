@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://ben4o3c2ws32s"]
+
+[ext_resource type="PackedScene" uid="uid://dj6u6rc3s4722" path="res://Ship/ship.tscn" id="1_6sloi"]
+[ext_resource type="Script" path="res://game_controller.gd" id="1_nw8ke"]
+[ext_resource type="PackedScene" uid="uid://c0ps7b1tlyow5" path="res://Tunnel/pathing.tscn" id="1_r36tu"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_nw8ke")
+
+[node name="Pathing" parent="." instance=ExtResource("1_r36tu")]
+unique_name_in_owner = true
+PathCount = 26
+PathSegmentLength = 40.0
+
+[node name="PlayerShip" parent="." instance=ExtResource("1_6sloi")]
+unique_name_in_owner = true

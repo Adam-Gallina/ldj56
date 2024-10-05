@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://bjpnngd0pplav"]
+
+[ext_resource type="ArrayMesh" uid="uid://dh6gop8uwdcp8" path="res://Aliens/Alien_med.res" id="1_x47o2"]
+[ext_resource type="ArrayMesh" uid="uid://cqm2t12dkfj3m" path="res://Aliens/Alien_low.res" id="2_i2ffn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qb2jg"]
+albedo_color = Color(0.337255, 0.113725, 0.301961, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_nkh7l"]
+size = Vector2(30, 50)
+
+[node name="TunnelWallEffect" type="CPUParticles3D"]
+cast_shadow = 0
+gi_mode = 0
+amount = 80
+lifetime = 3.0
+local_coords = true
+mesh = ExtResource("1_x47o2")
+emission_shape = 3
+emission_box_extents = Vector3(5, 5, 5)
+particle_flag_align_y = true
+direction = Vector3(0, 1, -0.25)
+spread = 5.0
+gravity = Vector3(0, 0, 10)
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+scale_amount_min = 0.15
+scale_amount_max = 0.5
+
+[node name="Background" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 17.7979)
+visible = false
+cast_shadow = 0
+gi_mode = 0
+amount = 300
+lifetime = 1.5
+fixed_fps = 30
+fract_delta = false
+mesh = ExtResource("2_i2ffn")
+emission_shape = 3
+emission_box_extents = Vector3(10, 5, 10)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+scale_amount_min = 0.25
+scale_amount_max = 0.75
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 25, 37.148)
+material_override = SubResource("StandardMaterial3D_qb2jg")
+mesh = SubResource("QuadMesh_nkh7l")
