@@ -28,9 +28,9 @@ can_sleep = false
 angular_damp_mode = 1
 angular_damp = 5.0
 script = ExtResource("1_yjlcn")
-MinSpeed = 50.0
-MaxSpeed = 150.0
-TurnAccel = 5.0
+MinSpeed = 100.0
+MaxSpeed = 200.0
+TurnAccel = 6.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.614671)
@@ -90,6 +90,7 @@ size = Vector3(0.0768433, 0.0420837, 0.439331)
 
 [node name="GunControlsColl" type="StaticBody3D" parent="." node_paths=PackedStringArray("InteractionTarget")]
 transform = Transform3D(1, 0, 0, 0, 0.104372, 0.994538, 0, -0.994538, 0.104372, -0.0325282, 0.524557, -0.879572)
+visible = false
 collision_layer = 32
 collision_mask = 0
 script = ExtResource("6_2eubl")

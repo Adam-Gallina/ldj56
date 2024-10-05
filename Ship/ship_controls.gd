@@ -5,7 +5,7 @@ extends RigidBody3D
 
 @export var TurnAccel : float
 
-var _focused = false
+var _focused = true
 
 func set_focus(focus : bool):
     print('ship')

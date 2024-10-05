@@ -4,26 +4,43 @@ class_name PathGen
 class TunnelSegment:
     var center : Path3D
     var walls : Array[Path3D] = []
+    var effects : Array[CPUParticles3D]
     var start_pos : Vector3
     var start_dir : Vector3
     var end_pos : Vector3
     var end_dir : Vector3
 
+    func activate_particles():
+        for i in effects:
+            i.emitting = true
+            i.get_node('Background').emitting = true
+    
+    func deactivate_particles():
+        for i in effects:
+            i.emitting = false
+            i.get_node('Background').emitting = false
+
     func queue_free():
         center.queue_free()
         for p in walls:
             p.queue_free()
+        for e in effects:
+            e.queue_free()
         
 
 @export var PathObject : PackedScene
 @export var PathCount : int = 8
 @onready var _dang = 2 * PI / PathCount
-@export var PathRadius : float = 5
-@export var PathSegmentLengthMin : float = 300
-@export var PathSegmentLengthMax : float = 1000
-@export var PathSegmentControlPercent : float = .3
+@export var PathRadius : float = 40
+@export var PathSegmentLengthMin : float = 400
+@export var PathSegmentLengthMax : float = 700
+@export var PathSegmentControlPercentMin : float = .5
+@export var PathSegmentControlPercentMax : float = .7
+@export var MaxPathSegmentAngle : float = 60
+@export var MaxPathSegmentControlAngle : float = 45
 
-var _segments : Array[TunnelSegment] = []
+var _future_segments : Array[TunnelSegment] = []
+var _active_segments : Array[TunnelSegment] = []
 var _past_segments : Array[TunnelSegment] = []
 
 @export var PathSegmentObject : PackedScene
@@ -38,48 +55,72 @@ func _get_new_path_object() -> Path3D:
     return s
 
 
-func increment_segment(segments_to_keep=2):
-    generate_new_segment(_segments[-1].end_pos, _segments[-1].end_dir)
-    _past_segments.insert(0, _segments.pop_front())
+func increment_segment(active_segments=3, segments_to_keep=2):
+    generate_new_segment(_future_segments[-1].end_pos, _future_segments[-1].end_dir)
+    var new_segment = _future_segments.pop_front()
+    new_segment.activate_particles()
+    _active_segments.append(new_segment)
 
-    while _past_segments.size() > segments_to_keep:
-        _past_segments.pop_back().queue_free()
+    if _active_segments.size() > active_segments:
+        var old_segment = _active_segments.pop_front()
+        old_segment.deactivate_particles()
+        _past_segments.insert(0, old_segment)
 
-    return _segments[0]
+        while _past_segments.size() > segments_to_keep:
+            _past_segments.pop_back().queue_free()
 
-func generate_new_segment(start_pos : Vector3, start_dir : Vector3):
-    var s = generate_paths(start_pos, start_dir)
-    _segments.append(s)
+    return _active_segments[0]
+
+func generate_new_segment(start_pos : Vector3, start_dir : Vector3, end_pos : Vector3 = Vector3.ZERO, end_dir : Vector3 = Vector3.ZERO):
+    var s = generate_paths(start_pos, start_dir, end_pos, end_dir)
+    _future_segments.append(s)
     generate_walls(s)
 
     return s
 
 
-func generate_paths(start_pos : Vector3, start_dir : Vector3) -> TunnelSegment:
+func generate_paths(start_pos : Vector3, start_dir : Vector3, end_pos : Vector3 = Vector3.ZERO, end_dir : Vector3 = Vector3.ZERO) -> TunnelSegment:
     var s : TunnelSegment = TunnelSegment.new()
     s.center = _get_new_path_object()
     for i in range(PathCount):
         s.walls.append(_get_new_path_object())
 
-    var curve_length = randi_range(PathSegmentLengthMin, PathSegmentLengthMax)
+    var curve_dist
+    if end_pos == Vector3.ZERO:
+        # Move in roughly same direction, but bias towards forwards
+        var dir = (start_dir * 5 + Vector3.MODEL_FRONT).normalized()
+        var right = dir.rotated(Vector3.UP, PI/2)
+        var target_dir = dir.rotated(right, randf_range(-deg_to_rad(MaxPathSegmentAngle), deg_to_rad(MaxPathSegmentAngle)))
+        target_dir = target_dir.rotated(dir, randf_range(-PI, PI))
+
+        curve_dist = randf_range(PathSegmentLengthMin, PathSegmentLengthMax)
+        end_pos = start_pos + dir * curve_dist
+    else:
+        curve_dist = start_pos.distance_to(end_pos)
+
+    if end_dir == Vector3.ZERO:
+        var dir = -end_pos.direction_to(start_pos)
+        var right = dir.rotated(Vector3.UP, PI/2)
+        end_dir = dir.rotated(right, randf_range(-deg_to_rad(MaxPathSegmentControlAngle), deg_to_rad(MaxPathSegmentControlAngle)))
+        end_dir = end_dir.rotated(dir, randf_range(-PI, PI))
+        
 
     var c = Curve3D.new()
     s.start_pos = start_pos
     s.start_dir = start_dir
-    c.add_point(s.start_pos, Vector3.ZERO, s.start_dir)
-    s.end_pos = start_pos + start_dir * curve_length
-    s.end_dir = start_dir
-    c.add_point(s.end_pos, s.end_dir, Vector3.ZERO)
+    c.add_point(s.start_pos, Vector3.ZERO, s.start_dir * curve_dist * randf_range(PathSegmentControlPercentMin, PathSegmentControlPercentMax))
+    s.end_pos = end_pos
+    s.end_dir = end_dir
+    c.add_point(s.end_pos, -s.end_dir * curve_dist * randf_range(PathSegmentControlPercentMin, PathSegmentControlPercentMax), Vector3.ZERO)
     var points = c.tessellate_even_length()
     
     var _main_follow : PathFollow3D = s.center.get_node('PathFollow3D')
 
     s.center.curve.clear_points()
-    s.center.curve.add_point(points[0])
-    s.center.curve.add_point(points[1])
-    for i in range(1, points.size()-2):
-        s.center.curve.add_point(points[i+1])
+    for i in points:
+        s.center.curve.add_point(i)
 
+    for i in range(1, points.size()):
         _main_follow.progress += points[i-1].distance_to(points[i])
         var dir = _main_follow.global_basis.z
         var side = _main_follow.global_basis.x
@@ -100,5 +141,6 @@ func generate_walls(segment : TunnelSegment):
             add_child(wall)
             wall.global_position = follow.global_position
             wall.look_at(segment.center.curve.get_closest_point(wall.global_position), -follow.transform.basis.z)
+            segment.effects.append(wall)
 
             follow.progress += PathSegmentLength

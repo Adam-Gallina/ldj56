@@ -9,8 +9,9 @@ script = ExtResource("1_nw8ke")
 
 [node name="Pathing" parent="." instance=ExtResource("1_r36tu")]
 unique_name_in_owner = true
-PathCount = 26
-PathSegmentLength = 40.0
+PathCount = 12
+PathRadius = 80.0
+PathSegmentLength = 60.0
 
 [node name="PlayerShip" parent="." instance=ExtResource("1_6sloi")]
 unique_name_in_owner = true

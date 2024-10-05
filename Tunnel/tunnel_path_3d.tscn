@@ -2,7 +2,7 @@
 
 [sub_resource type="Curve3D" id="Curve3D_p2xh3"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 15, 0, 0, 0, -6.5749, 12.2108, -26.0252, 6.5749, -12.2108, 26.0252, 30, 0, 30),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 15, 0, 0, 0, -6.5749, 12.2108, -26.0252, 6.5749, -12.2108, 26.0252, 22.1985, 3.11641, 36.546),
 "tilts": PackedFloat32Array(0, 0)
 }
 point_count = 2
@@ -11,4 +11,5 @@ point_count = 2
 curve = SubResource("Curve3D_p2xh3")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 loop = false

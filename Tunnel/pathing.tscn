@@ -7,6 +7,5 @@
 [node name="Pathing" type="Node3D"]
 script = ExtResource("1_wn0ls")
 PathObject = ExtResource("2_j0kf6")
-PathRadius = 40.0
 PathSegmentObject = ExtResource("3_5cgr5")
 PathSegmentLength = 30.0
