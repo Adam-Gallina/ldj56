@@ -4,6 +4,7 @@ class_name AttackSpawner
 @export var Attacks : Array[PackedScene]
 ## Chance to use attack compared to other attacks
 @export var AttackChance : Array[int]
+@onready var _total_attack_chance = MyMath.sum(AttackChance)
 
 func _get_rand_attack() -> AttackBase:
 	var a = Attacks[0].instantiate()

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgcvgek5fe24j"]
+
+[ext_resource type="Material" uid="uid://cxbfxtp7ot6ij" path="res://Debris/Meteors/Rock.tres" id="1_yrg7u"]
+[ext_resource type="ArrayMesh" uid="uid://fwbuixu3oa8j" path="res://Debris/Meteors/Meteors_ML_1.res" id="2_dfcp5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rmibx"]
+radius = 4.6302
+
+[node name="Debris" type="RigidBody3D"]
+collision_layer = 2
+collision_mask = 19
+gravity_scale = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_rmibx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.312591, 0.44639, -0.332784)
+material_override = ExtResource("1_yrg7u")
+mesh = ExtResource("2_dfcp5")
+skeleton = NodePath("../..")

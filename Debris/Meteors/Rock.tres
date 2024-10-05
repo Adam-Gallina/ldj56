@@ -1,0 +1,18 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://cxbfxtp7ot6ij"]
+
+[sub_resource type="Gradient" id="Gradient_2ljy2"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xialr"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dmvsk"]
+in_3d_space = true
+seamless = true
+color_ramp = SubResource("Gradient_2ljy2")
+noise = SubResource("FastNoiseLite_xialr")
+
+[resource]
+resource_name = "Rock"
+cull_mode = 2
+albedo_color = Color(0.329412, 0.329412, 0.329412, 1)
+albedo_texture = SubResource("NoiseTexture2D_dmvsk")
+roughness = 0.5

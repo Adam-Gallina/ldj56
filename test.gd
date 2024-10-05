@@ -2,6 +2,7 @@ extends Node3D
 
 @onready var path_gen = get_node('Pathing')
 @onready var attacks = get_node('AttackSpawner')
+@onready var debris = get_node('DebrisSpawner')
 
 func _ready():
     var s = path_gen.generate_new_segment(Vector3.ZERO, Vector3.MODEL_FRONT)
@@ -17,3 +18,8 @@ func _ready():
     a.tesselate_path()
 
     a.start_attack()
+
+
+    var d = debris.generate_debris_field(40, 50)
+    d.global_position = Vector3(0, 0, 100)
+    s.center.add_child(d)

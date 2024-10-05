@@ -12,7 +12,7 @@ func generate_path():
 
     var end_path = _segment.walls.pick_random()
     if end_path == _segment:
-        end_path = _segment.walls[(_segment.walls.find(_segment) + 1) % _segment.walls.size()] 
+        end_path = _segment.walls[(_segment.walls.find(_segment) + int(_segment.walls.size()/2.)) % _segment.walls.size()] 
 
     var start_dir = MyMath.rand_rotate_vector3(center_dir, 0, deg_to_rad(MaxBeamAngle))
     path.curve.add_point(_start_pos, Vector3.ZERO, start_dir * _start_pos.distance_to(center_pos) * randf_range(BeamControlMin, BeamControlMin))

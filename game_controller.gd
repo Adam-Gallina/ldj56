@@ -1,19 +1,31 @@
 extends Node3D
 
-@onready var path_gen : PathGen = get_node('%Pathing')
 @onready var player : RigidBody3D = get_node('%PlayerShip')
-@onready var attack_spawner : AttackSpawner = get_node('%AttackSpawner')
 
+@onready var path_gen : PathGen = get_node('%Pathing')
 @export var ActiveSegments = 2
 @export var ExtraSegments = 1
 var _curr_segment : PathGen.TunnelSegment
 
+@onready var attack_spawner : AttackSpawner = get_node('%AttackSpawner')
 @export var StartAttackDelay : float = 1
 @export var AttackDelayMin : float = 3
 @export var AttackDelayMax : float = 6
 @export var AttackSpawnDistMin : float = 50
 @export var AttackSpawnDistMax : float = 200
 var _next_attack : float
+
+@onready var debris_spawner : DebrisSpawner = get_node('%DebrisSpawner')
+@export var StartDebrisDelay : float = 1
+@export var DebrisDelayMin : float = 5
+@export var DebrisDelayMax : float = 10
+@export var DebrisSpawnDist : float = 500
+@export var DebrisWeightMin : int = 30
+@export var DebrisWeightMax : int = 60
+@export var DebrisRadiusMin : int = 60
+@export var DebrisRadiusMax : int = 120
+@export var MaxDebrisOffsetPercent : float = .75
+var _next_debris : float
 
 func _ready():
     generate_initial_paths()
@@ -28,17 +40,16 @@ func generate_initial_paths():
     for i in range(ActiveSegments):
         path_gen.increment_segment(ActiveSegments, ExtraSegments)
 
-func get_attack_spawn_pos() -> PathFollow3D:
+func get_segment_center_pos(offset) -> PathFollow3D:
     var curves = path_gen.get_active_segments()
     var c = 0
 
-    var attack_offset = randf_range(AttackSpawnDistMin, AttackSpawnDistMax)
     # Compensate for player progress in current segment
-    attack_offset += curves[c].center.curve.get_closest_point(player.global_position).distance_to(curves[c].start_pos)
+    offset += curves[c].center.curve.get_closest_point(player.global_position).distance_to(curves[c].start_pos)
 
     var l = curves[c].center.curve.get_baked_length()
-    while attack_offset > l:
-        attack_offset -= l
+    while offset > l:
+        offset -= l
         c += 1
 
         if c >= curves.size(): return null
@@ -47,7 +58,7 @@ func get_attack_spawn_pos() -> PathFollow3D:
             
     var pf = curves[c].center.get_node('PathFollow3D')
     pf.progress_ratio = 0
-    pf.progress += attack_offset
+    pf.progress += offset
 
     return pf
 
@@ -61,9 +72,19 @@ func _process(delta):
 
     _next_attack -= delta
     if _next_attack <= 0:
-        var pf = get_attack_spawn_pos()
+        var pf = get_segment_center_pos(randf_range(AttackSpawnDistMin, AttackSpawnDistMax))
         if pf != null:
             _next_attack = randf_range(AttackDelayMin, AttackDelayMax)
             var a = attack_spawner.get_attack(_curr_segment, pf, path_gen.PathSegmentLength/2)
             a.start_attack()
-            print('spawned attack')
+
+    _next_debris -= delta
+    if _next_debris <= 0:
+        var pf = get_segment_center_pos(DebrisSpawnDist)
+        if pf != null:
+            _next_debris = randf_range(DebrisDelayMin, DebrisDelayMax)
+            var d = debris_spawner.generate_debris_field(randi_range(DebrisWeightMin, DebrisWeightMax), randi_range(DebrisRadiusMin, DebrisRadiusMax))
+            pf.get_parent().add_child(d)
+
+            var dir = pf.global_basis.x.rotated(pf.global_basis.z, randf_range(-PI, PI))
+            d.global_position = pf.global_position + dir * path_gen.PathRadius * MaxDebrisOffsetPercent * randf()

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8oka247534ar"]
+
+[ext_resource type="PackedScene" uid="uid://dgcvgek5fe24j" path="res://Debris/Meteors/ML_1.tscn" id="1_p4v74"]
+[ext_resource type="ArrayMesh" uid="uid://dm5b7k6otqbf4" path="res://Debris/Meteors/Meteors_ML_3.res" id="2_b4crb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rwrq7"]
+radius = 6.04661
+
+[node name="Debris" instance=ExtResource("1_p4v74")]
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("SphereShape3D_rwrq7")
+
+[node name="MeshInstance3D" parent="CollisionShape3D" index="0"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.00294, 1.39561, -0.634812)
+mesh = ExtResource("2_b4crb")

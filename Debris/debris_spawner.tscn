@@ -1,0 +1,23 @@
+[gd_scene load_steps=11 format=3 uid="uid://dtft8ehbcqt8n"]
+
+[ext_resource type="Script" path="res://Debris/DebrisSpawner.gd" id="1_0dea3"]
+[ext_resource type="PackedScene" uid="uid://dgcvgek5fe24j" path="res://Debris/Meteors/ML_1.tscn" id="2_kib0f"]
+[ext_resource type="PackedScene" uid="uid://qw5l1he1ql77" path="res://Debris/Meteors/ML_2.tscn" id="3_7dc4o"]
+[ext_resource type="PackedScene" uid="uid://c8oka247534ar" path="res://Debris/Meteors/ML_3.tscn" id="4_4cfpn"]
+[ext_resource type="PackedScene" uid="uid://b5yh0hooyo8ek" path="res://Debris/Meteors/MM_1.tscn" id="5_tsgok"]
+[ext_resource type="PackedScene" uid="uid://cqnol6mpndl5f" path="res://Debris/Meteors/MM_2.tscn" id="6_x1nj6"]
+[ext_resource type="PackedScene" uid="uid://1mnnjgqlcy76" path="res://Debris/Meteors/MM_3.tscn" id="7_wabf2"]
+[ext_resource type="PackedScene" uid="uid://bjqmt27qm0726" path="res://Debris/Meteors/MS_1.tscn" id="8_epwc4"]
+[ext_resource type="PackedScene" uid="uid://b0w1di7h7n171" path="res://Debris/Meteors/MS_2.tscn" id="9_ecil0"]
+[ext_resource type="PackedScene" uid="uid://dbw1suavorjo7" path="res://Debris/Meteors/MS_3.tscn" id="10_phfow"]
+
+[node name="DebrisSpawner" type="Node3D"]
+script = ExtResource("1_0dea3")
+Debris = Array[PackedScene]([ExtResource("2_kib0f"), ExtResource("3_7dc4o"), ExtResource("4_4cfpn"), ExtResource("5_tsgok"), ExtResource("6_x1nj6"), ExtResource("7_wabf2"), ExtResource("8_epwc4"), ExtResource("9_ecil0"), ExtResource("10_phfow")])
+DebrisChance = Array[int]([3, 3, 3, 4, 4, 4, 2, 2, 2])
+DebrisWeights = Array[int]([10, 10, 10, 7, 7, 7, 4, 4, 4])
+DebrisScaleMin = 2.0
+DebrisScaleMax = 5.0
+DebrisVelocityMin = 3.0
+DebrisVelocityMax = 5.0
+DebrisAngularMax = 1.571

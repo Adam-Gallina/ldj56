@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://4awtjsgdujjw"]
+[gd_scene load_steps=6 format=3 uid="uid://4awtjsgdujjw"]
 
 [ext_resource type="Script" path="res://test.gd" id="1_4dohs"]
 [ext_resource type="PackedScene" uid="uid://c0ps7b1tlyow5" path="res://Tunnel/pathing.tscn" id="1_csx5l"]
 [ext_resource type="PackedScene" uid="uid://2vn130y13nm" path="res://Ship/Player/player.tscn" id="3_iny6n"]
 [ext_resource type="PackedScene" uid="uid://bdg0cfni1vr70" path="res://Attacks/attack_spawner.tscn" id="4_ejerj"]
+[ext_resource type="PackedScene" uid="uid://dtft8ehbcqt8n" path="res://Debris/debris_spawner.tscn" id="5_qxdls"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_4dohs")
@@ -17,3 +18,5 @@ transform = Transform3D(0.97917, -0.0882145, 0.18288, -0.203044, -0.425411, 0.88
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="AttackSpawner" parent="." instance=ExtResource("4_ejerj")]
+
+[node name="DebrisSpawner" parent="." instance=ExtResource("5_qxdls")]

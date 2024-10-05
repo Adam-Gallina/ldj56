@@ -8,8 +8,8 @@
 [ext_resource type="Script" path="res://Ship/interactive.gd" id="6_2eubl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mtawh"]
-radius = 2.10654
-height = 5.30948
+radius = 5.66975
+height = 11.3395
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dfxar"]
 radius = 0.151335
@@ -32,8 +32,13 @@ MinSpeed = 100.0
 MaxSpeed = 200.0
 TurnAccel = 6.5
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.614671)
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0953029)
+collision_layer = 16
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.439745)
 shape = SubResource("CapsuleShape3D_mtawh")
 
 [node name="Model" parent="." instance=ExtResource("2_tolwi")]
@@ -114,3 +119,11 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 spot_range = 200.0
 spot_attenuation = 0.307786
 spot_angle = 70.0
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqnol6mpndl5f"]
+
+[ext_resource type="PackedScene" uid="uid://b5yh0hooyo8ek" path="res://Debris/Meteors/MM_1.tscn" id="1_2fnr7"]
+[ext_resource type="ArrayMesh" uid="uid://bk5ci7s7s6qch" path="res://Debris/Meteors/Meteors_MM_2.res" id="2_gjh1t"]
+
+[node name="Debris" instance=ExtResource("1_2fnr7")]
+
+[node name="MeshInstance3D" parent="CollisionShape3D" index="0"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0.334607, 0.0580706, -0.375931)
+mesh = ExtResource("2_gjh1t")
