@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqmlrayp232un"]
+
+[ext_resource type="Script" path="res://Attacks/crossbeam_attack.gd" id="1_ah0v1"]
+[ext_resource type="PackedScene" uid="uid://ds2fukmyfb884" path="res://Attacks/attack_segment.tscn" id="2_pqa8o"]
+
+[sub_resource type="Curve3D" id="Curve3D_m0qmr"]
+
+[node name="CrossbeamAttack" type="Node3D"]
+script = ExtResource("1_ah0v1")
+BeamControlMin = 0.6
+BeamControlMax = 1.0
+AttackSegment = ExtResource("2_pqa8o")
+AttackSegmentHeight = 20.0
+AttackSegmentSpeed = 100.0
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_m0qmr")

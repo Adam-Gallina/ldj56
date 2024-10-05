@@ -8,4 +8,4 @@
 script = ExtResource("1_wn0ls")
 PathObject = ExtResource("2_j0kf6")
 PathSegmentObject = ExtResource("3_5cgr5")
-PathSegmentLength = 30.0
+PathSegmentLength = 60.0

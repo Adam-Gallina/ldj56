@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdg0cfni1vr70"]
+
+[ext_resource type="Script" path="res://Attacks/AttackSpawner.gd" id="1_6ut5e"]
+[ext_resource type="PackedScene" uid="uid://bqmlrayp232un" path="res://Attacks/crossbeam_attack.tscn" id="2_ku715"]
+
+[node name="AttackSpawner" type="Node3D"]
+script = ExtResource("1_6ut5e")
+Attacks = Array[PackedScene]([ExtResource("2_ku715")])

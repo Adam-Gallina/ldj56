@@ -30,6 +30,7 @@ scale_amount_max = 0.5
 
 [node name="Background" type="CPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.8456)
+visible = false
 cast_shadow = 0
 gi_mode = 0
 emitting = false

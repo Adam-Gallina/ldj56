@@ -1,19 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://4awtjsgdujjw"]
+[gd_scene load_steps=5 format=3 uid="uid://4awtjsgdujjw"]
 
 [ext_resource type="Script" path="res://test.gd" id="1_4dohs"]
 [ext_resource type="PackedScene" uid="uid://c0ps7b1tlyow5" path="res://Tunnel/pathing.tscn" id="1_csx5l"]
 [ext_resource type="PackedScene" uid="uid://2vn130y13nm" path="res://Ship/Player/player.tscn" id="3_iny6n"]
+[ext_resource type="PackedScene" uid="uid://bdg0cfni1vr70" path="res://Attacks/attack_spawner.tscn" id="4_ejerj"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_4dohs")
 
 [node name="Pathing" parent="." instance=ExtResource("1_csx5l")]
-PathCount = 3
-PathSegmentLengthMin = 4.0
-PathSegmentLengthMax = 7.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.97917, -0.0882145, 0.18288, -0.203044, -0.425411, 0.881929, 0, -0.900691, -0.434461, 0, 12.047, 0)
 
 [node name="Player" parent="." instance=ExtResource("3_iny6n")]
-transform = Transform3D(0.190809, 0.0906735, -0.97743, 5.62302e-09, 0.995725, 0.0923706, 0.981627, -0.0176251, 0.189993, -27.2204, 14.5463, 15)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="AttackSpawner" parent="." instance=ExtResource("4_ejerj")]

@@ -43,6 +43,8 @@ var _future_segments : Array[TunnelSegment] = []
 var _active_segments : Array[TunnelSegment] = []
 var _past_segments : Array[TunnelSegment] = []
 
+func get_active_segments() -> Array[TunnelSegment]: return _active_segments
+
 @export var PathSegmentObject : PackedScene
 @export var PathSegmentLength : float = 5
 
@@ -89,21 +91,16 @@ func generate_paths(start_pos : Vector3, start_dir : Vector3, end_pos : Vector3 
     if end_pos == Vector3.ZERO:
         # Move in roughly same direction, but bias towards forwards
         var dir = (start_dir * 5 + Vector3.MODEL_FRONT).normalized()
-        var right = dir.rotated(Vector3.UP, PI/2)
-        var target_dir = dir.rotated(right, randf_range(-deg_to_rad(MaxPathSegmentAngle), deg_to_rad(MaxPathSegmentAngle)))
-        target_dir = target_dir.rotated(dir, randf_range(-PI, PI))
+        var target_dir = MyMath.rand_rotate_vector3(dir, 0, deg_to_rad(MaxPathSegmentAngle))
 
         curve_dist = randf_range(PathSegmentLengthMin, PathSegmentLengthMax)
-        end_pos = start_pos + dir * curve_dist
+        end_pos = start_pos + target_dir * curve_dist
     else:
         curve_dist = start_pos.distance_to(end_pos)
 
     if end_dir == Vector3.ZERO:
         var dir = -end_pos.direction_to(start_pos)
-        var right = dir.rotated(Vector3.UP, PI/2)
-        end_dir = dir.rotated(right, randf_range(-deg_to_rad(MaxPathSegmentControlAngle), deg_to_rad(MaxPathSegmentControlAngle)))
-        end_dir = end_dir.rotated(dir, randf_range(-PI, PI))
-        
+        end_dir = MyMath.rand_rotate_vector3(dir, 0, deg_to_rad(MaxPathSegmentControlAngle))        
 
     var c = Curve3D.new()
     s.start_pos = start_pos
