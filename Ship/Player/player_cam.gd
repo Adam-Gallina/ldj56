@@ -16,14 +16,16 @@ var yaw:
 
 @onready var base_fov = fov
 
-func _ready():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
 func _process(_delta):
 	if Input.is_action_just_pressed('menu_pause'):
-		if Input.is_key_pressed(KEY_SHIFT): get_tree().quit()
+		#if Input.is_key_pressed(KEY_SHIFT): get_tree().quit()
 
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE else Input.MOUSE_MODE_VISIBLE
+		#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE else Input.MOUSE_MODE_VISIBLE
+
+		await get_tree().create_timer(.35).timeout
+
+		if Input.is_action_pressed('menu_pause'):
+			get_tree().quit()
 
 func set_camera(p:float, y:float):
 	yaw = y

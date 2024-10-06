@@ -1,13 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://4awtjsgdujjw"]
+[gd_scene load_steps=7 format=3 uid="uid://4awtjsgdujjw"]
 
-[ext_resource type="Script" path="res://test.gd" id="1_4dohs"]
 [ext_resource type="PackedScene" uid="uid://c0ps7b1tlyow5" path="res://Tunnel/pathing.tscn" id="1_csx5l"]
 [ext_resource type="PackedScene" uid="uid://2vn130y13nm" path="res://Ship/Player/player.tscn" id="3_iny6n"]
 [ext_resource type="PackedScene" uid="uid://bdg0cfni1vr70" path="res://Attacks/attack_spawner.tscn" id="4_ejerj"]
+[ext_resource type="PackedScene" uid="uid://dj6u6rc3s4722" path="res://Ship/ship.tscn" id="5_87qta"]
 [ext_resource type="PackedScene" uid="uid://dtft8ehbcqt8n" path="res://Debris/debris_spawner.tscn" id="5_qxdls"]
+[ext_resource type="PackedScene" uid="uid://dgcvgek5fe24j" path="res://Debris/Meteors/ML_1.tscn" id="6_go2q5"]
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource("1_4dohs")
 
 [node name="Pathing" parent="." instance=ExtResource("1_csx5l")]
 
@@ -15,8 +15,28 @@ script = ExtResource("1_4dohs")
 transform = Transform3D(0.97917, -0.0882145, 0.18288, -0.203044, -0.425411, 0.881929, 0, -0.900691, -0.434461, 0, 12.047, 0)
 
 [node name="Player" parent="." instance=ExtResource("3_iny6n")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+transform = Transform3D(0.184998, 0, -0.982739, 0, 1, 0, 0.982739, 0, 0.184998, -13.4766, 3.04845, 0)
 
 [node name="AttackSpawner" parent="." instance=ExtResource("4_ejerj")]
 
 [node name="DebrisSpawner" parent="." instance=ExtResource("5_qxdls")]
+
+[node name="Ship" parent="." instance=ExtResource("5_87qta")]
+
+[node name="Debris" parent="." instance=ExtResource("6_go2q5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 46.2825)
+
+[node name="Debris2" parent="." instance=ExtResource("6_go2q5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30.3915)
+
+[node name="Debris3" parent="." instance=ExtResource("6_go2q5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.1284, 0, -0.398502)
+
+[node name="Debris4" parent="." instance=ExtResource("6_go2q5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.5337, 0, -0.398502)
+
+[node name="Debris5" parent="." instance=ExtResource("6_go2q5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.375954, 48.0237, -0.39851)
+
+[node name="Debris6" parent="." instance=ExtResource("6_go2q5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.375954, -50.6846, -0.39851)

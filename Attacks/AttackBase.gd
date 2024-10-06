@@ -12,41 +12,41 @@ var _attacking = false
 
 var _segment : PathGen.TunnelSegment
 func set_attack_segment(segment:PathGen.TunnelSegment):
-    _segment = segment
+	_segment = segment
 
 var _start_pos : Vector3
 func set_start_pos(pos : Vector3):
-    _start_pos = pos
+	_start_pos = pos
 
 
 func generate_path():
-    pass
+	pass
 
 
 func start_attack():
-    _attack_segments.append(_spawn_attack_segment())
-    _attacking = true
+	_attack_segments.append(_spawn_attack_segment())
+	_attacking = true
 
 
 func _spawn_attack_segment() -> PathFollow3D:
-    var s : PathFollow3D = AttackSegment.instantiate()
-    path.add_child(s)
-    s.progress_ratio = 0
+	var s : PathFollow3D = AttackSegment.instantiate()
+	path.add_child(s)
+	s.progress_ratio = 0
 
-    return s
+	return s
 
 
 func _process(delta):
-    if not _attacking: return
+	if not _attacking: return
 
-    for i in range(_attack_segments.size()-1, -1, -1):
-        _attack_segments[i].progress += AttackSegmentSpeed * delta
-        if _attack_segments[i].progress_ratio >= 1:
-            _attack_segments.pop_at(i).queue_free()
+	for i in range(_attack_segments.size()-1, -1, -1):
+		_attack_segments[i].progress += AttackSegmentSpeed * delta
+		if _attack_segments[i].progress_ratio >= 1:
+			_attack_segments.pop_at(i).queue_free()
 
-    if AttackDuration > 0 and _attack_segments[-1].progress >= AttackSegmentHeight:
-        _attack_segments.append(_spawn_attack_segment())
+	if AttackDuration > 0 and _attack_segments[-1].progress >= AttackSegmentHeight:
+		_attack_segments.append(_spawn_attack_segment())
 
-    AttackDuration -= delta
-    if AttackDuration <= 0 and _attack_segments.size() == 0:
-        queue_free()
+	AttackDuration -= delta
+	if AttackDuration <= 0 and _attack_segments.size() == 0:
+		queue_free()

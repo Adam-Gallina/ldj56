@@ -27,18 +27,26 @@ var _next_attack : float
 @export var MaxDebrisOffsetPercent : float = .75
 var _next_debris : float
 
+
+@export var WinDist = 1000
+@onready var _remaining_dist = WinDist
+@export var MaxDifficultyScale : float = .5
+@export var DifficultyScaleStart = 1000
+@export var DifficultyScaleEnd = 1000
+
 func _ready():
     generate_initial_paths()
-    start_game()
 
 func generate_initial_paths():
     _curr_segment = path_gen.generate_new_segment(Vector3.ZERO, Vector3.MODEL_FRONT)
     var s = _curr_segment
-    for i in range(ActiveSegments + ExtraSegments-1):
+    _remaining_dist -= s.path_length
+    for i in range(ExtraSegments-1):
         s = path_gen.generate_new_segment(s.end_pos, s.end_dir)
+        _remaining_dist -= s.path_length
     
     for i in range(ActiveSegments):
-        path_gen.increment_segment(ActiveSegments, ExtraSegments)
+        path_gen.increment_segment(true, ActiveSegments, ExtraSegments)
 
 func get_segment_center_pos(offset) -> PathFollow3D:
     var curves = path_gen.get_active_segments()
@@ -62,19 +70,65 @@ func get_segment_center_pos(offset) -> PathFollow3D:
 
     return pf
 
-
+var _playing = false
 func start_game():
-    _next_attack = StartAttackDelay
+    $StartMenu.hide()
+    Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+    $Door.open(2)
 
+    player.MinSpeed = 25
+    await get_tree().create_timer(1).timeout
+
+    player.MinSpeed = 100
+    _next_attack = StartAttackDelay
+    _playing = true
+
+func restart_game():
+    get_tree().reload_current_scene()
+    print('??')
+
+func lose_game():
+    Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+    $DeathMenu.show()
+
+func win_game():
+    await get_tree().create_timer(1).timeout
+    Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+    $WinMenu.show()
+
+
+var _moved_door = false
 func _process(delta):
+    if not _playing: return
+
     if player.global_position.distance_to(_curr_segment.end_pos) < path_gen.PathRadius:
-        _curr_segment = path_gen.increment_segment(ActiveSegments, ExtraSegments)
+        if _remaining_dist <= 0 and _moved_door:
+            win_game()
+
+        _curr_segment = path_gen.increment_segment(_remaining_dist > 0, ActiveSegments, ExtraSegments)
+        
+        if _remaining_dist <= 0 and not _moved_door:
+            $Door.global_position = _curr_segment.end_pos
+            $Door.look_at(_curr_segment.end_pos - _curr_segment.end_dir)
+            _moved_door = true
+
+        _remaining_dist -= _curr_segment.path_length
+    
+
+    var difficulty_scale
+    if WinDist - _remaining_dist < DifficultyScaleStart:
+        difficulty_scale = 1
+    elif _remaining_dist < DifficultyScaleEnd:
+        difficulty_scale = 1
+    else:
+        difficulty_scale = (1 - MaxDifficultyScale) * (_remaining_dist + DifficultyScaleStart) / (WinDist)
+    print(difficulty_scale)
 
     _next_attack -= delta
     if _next_attack <= 0:
         var pf = get_segment_center_pos(randf_range(AttackSpawnDistMin, AttackSpawnDistMax))
         if pf != null:
-            _next_attack = randf_range(AttackDelayMin, AttackDelayMax)
+            _next_attack = randf_range(AttackDelayMin, AttackDelayMax) * difficulty_scale
             var a = attack_spawner.get_attack(_curr_segment, pf, path_gen.PathSegmentLength/2)
             a.start_attack()
 
@@ -82,7 +136,7 @@ func _process(delta):
     if _next_debris <= 0:
         var pf = get_segment_center_pos(DebrisSpawnDist)
         if pf != null:
-            _next_debris = randf_range(DebrisDelayMin, DebrisDelayMax)
+            _next_debris = randf_range(DebrisDelayMin, DebrisDelayMax) * difficulty_scale
             var d = debris_spawner.generate_debris_field(randi_range(DebrisWeightMin, DebrisWeightMax), randi_range(DebrisRadiusMin, DebrisRadiusMax))
             pf.get_parent().add_child(d)
 

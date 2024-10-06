@@ -7,7 +7,13 @@ class_name AttackSpawner
 @onready var _total_attack_chance = MyMath.sum(AttackChance)
 
 func _get_rand_attack() -> AttackBase:
-	var a = Attacks[0].instantiate()
+	var r = randi() % _total_attack_chance
+	var i = 0
+	while AttackChance[i] < r:
+		r -= AttackChance[i]
+		i += 1
+
+	var a = Attacks[i].instantiate()
 	add_child(a)
 	return a
 

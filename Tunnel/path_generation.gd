@@ -9,6 +9,7 @@ class TunnelSegment:
     var start_dir : Vector3
     var end_pos : Vector3
     var end_dir : Vector3
+    var path_length : float
 
     func activate_particles():
         for i in effects:
@@ -57,11 +58,13 @@ func _get_new_path_object() -> Path3D:
     return s
 
 
-func increment_segment(active_segments=3, segments_to_keep=2):
-    generate_new_segment(_future_segments[-1].end_pos, _future_segments[-1].end_dir)
-    var new_segment = _future_segments.pop_front()
-    new_segment.activate_particles()
-    _active_segments.append(new_segment)
+func increment_segment(create_new=true,active_segments=3, segments_to_keep=2):
+    if create_new:
+        generate_new_segment(_future_segments[-1].end_pos, _future_segments[-1].end_dir)
+    if _future_segments.size() > 0:
+        var new_segment = _future_segments.pop_front()
+        new_segment.activate_particles()
+        _active_segments.append(new_segment)
 
     if _active_segments.size() > active_segments:
         var old_segment = _active_segments.pop_front()
@@ -70,6 +73,8 @@ func increment_segment(active_segments=3, segments_to_keep=2):
 
         while _past_segments.size() > segments_to_keep:
             _past_segments.pop_back().queue_free()
+
+    print(_future_segments.size(), ' ', _active_segments.size(), ' ', _past_segments.size())
 
     return _active_segments[0]
 
@@ -87,16 +92,15 @@ func generate_paths(start_pos : Vector3, start_dir : Vector3, end_pos : Vector3 
     for i in range(PathCount):
         s.walls.append(_get_new_path_object())
 
-    var curve_dist
     if end_pos == Vector3.ZERO:
         # Move in roughly same direction, but bias towards forwards
         var dir = (start_dir * 5 + Vector3.MODEL_FRONT).normalized()
         var target_dir = MyMath.rand_rotate_vector3(dir, 0, deg_to_rad(MaxPathSegmentAngle))
 
-        curve_dist = randf_range(PathSegmentLengthMin, PathSegmentLengthMax)
-        end_pos = start_pos + target_dir * curve_dist
+        s.path_length = randf_range(PathSegmentLengthMin, PathSegmentLengthMax)
+        end_pos = start_pos + target_dir * s.path_length
     else:
-        curve_dist = start_pos.distance_to(end_pos)
+        s.path_length = start_pos.distance_to(end_pos)
 
     if end_dir == Vector3.ZERO:
         var dir = -end_pos.direction_to(start_pos)
@@ -105,10 +109,10 @@ func generate_paths(start_pos : Vector3, start_dir : Vector3, end_pos : Vector3 
     var c = Curve3D.new()
     s.start_pos = start_pos
     s.start_dir = start_dir
-    c.add_point(s.start_pos, Vector3.ZERO, s.start_dir * curve_dist * randf_range(PathSegmentControlPercentMin, PathSegmentControlPercentMax))
+    c.add_point(s.start_pos, Vector3.ZERO, s.start_dir * s.path_length * randf_range(PathSegmentControlPercentMin, PathSegmentControlPercentMax))
     s.end_pos = end_pos
     s.end_dir = end_dir
-    c.add_point(s.end_pos, -s.end_dir * curve_dist * randf_range(PathSegmentControlPercentMin, PathSegmentControlPercentMax), Vector3.ZERO)
+    c.add_point(s.end_pos, -s.end_dir * s.path_length * randf_range(PathSegmentControlPercentMin, PathSegmentControlPercentMax), Vector3.ZERO)
     var points = c.tessellate_even_length()
     
     var _main_follow : PathFollow3D = s.center.get_node('PathFollow3D')

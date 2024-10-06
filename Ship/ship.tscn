@@ -15,9 +15,9 @@
 [ext_resource type="ArrayMesh" uid="uid://dh6gop8uwdcp8" path="res://Aliens/Alien_med.res" id="13_vripf"]
 [ext_resource type="Material" uid="uid://6tnrvwb8n77" path="res://Aliens/alien_background_mat.tres" id="14_174mg"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mtawh"]
-radius = 5.66975
-height = 11.3395
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fx3lj"]
+height = 0.907909
+radius = 2.28199
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hhtv1"]
 albedo_color = Color(0.160784, 0.160784, 0.160784, 1)
@@ -95,7 +95,6 @@ can_sleep = false
 angular_damp_mode = 1
 angular_damp = 5.0
 script = ExtResource("1_yjlcn")
-MinSpeed = 100.0
 MaxSpeed = 200.0
 TurnAccel = 6.5
 
@@ -105,8 +104,8 @@ collision_layer = 16
 collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.439745)
-shape = SubResource("CapsuleShape3D_mtawh")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1.32848)
+shape = SubResource("CylinderShape3D_fx3lj")
 
 [node name="FrontLight" type="SpotLight3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 2.78426)

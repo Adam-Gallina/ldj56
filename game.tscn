@@ -1,16 +1,24 @@
-[gd_scene load_steps=6 format=3 uid="uid://ben4o3c2ws32s"]
+[gd_scene load_steps=7 format=3 uid="uid://ben4o3c2ws32s"]
 
 [ext_resource type="PackedScene" uid="uid://dj6u6rc3s4722" path="res://Ship/ship.tscn" id="1_6sloi"]
 [ext_resource type="Script" path="res://game_controller.gd" id="1_nw8ke"]
 [ext_resource type="PackedScene" uid="uid://c0ps7b1tlyow5" path="res://Tunnel/pathing.tscn" id="1_r36tu"]
 [ext_resource type="PackedScene" uid="uid://bdg0cfni1vr70" path="res://Attacks/attack_spawner.tscn" id="4_dc0at"]
 [ext_resource type="PackedScene" uid="uid://dtft8ehbcqt8n" path="res://Debris/debris_spawner.tscn" id="6_n7j4k"]
+[ext_resource type="PackedScene" uid="uid://d37qwonw00sfv" path="res://Door/door.tscn" id="6_woatm"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_nw8ke")
-AttackDelayMin = 1.0
-AttackDelayMax = 3.0
+ActiveSegments = 1
+AttackDelayMin = 1.5
+AttackDelayMax = 4.0
 AttackSpawnDistMin = 100.0
+StartDebrisDelay = 3.0
+DebrisDelayMin = 6.0
+WinDist = 8000
+MaxDifficultyScale = 0.1
+DifficultyScaleStart = 600
+DifficultyScaleEnd = 0
 
 [node name="Pathing" parent="." instance=ExtResource("1_r36tu")]
 unique_name_in_owner = true
@@ -19,10 +27,226 @@ PathRadius = 80.0
 
 [node name="PlayerShip" parent="." instance=ExtResource("1_6sloi")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -300)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -125)
 
 [node name="AttackSpawner" parent="." instance=ExtResource("4_dc0at")]
 unique_name_in_owner = true
 
 [node name="DebrisSpawner" parent="." instance=ExtResource("6_n7j4k")]
 unique_name_in_owner = true
+
+[node name="Door" parent="." instance=ExtResource("6_woatm")]
+transform = Transform3D(7.1045, 0, 0, 0, 7.1045, 0, 0, 0, 7.1045, 0, 0, -50)
+StartOpen = false
+
+[node name="Label4" type="Label" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -150.0
+offset_top = 20.0
+offset_right = -25.0
+offset_bottom = 43.0
+grow_horizontal = 0
+text = "Hold exit to quit"
+
+[node name="StartMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Liftoff!"
+
+[node name="Label" type="Label" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 34.0
+offset_top = -354.0
+offset_right = 438.0
+offset_bottom = -171.0
+grow_vertical = 0
+theme_override_constants/line_spacing = 17
+theme_override_font_sizes/font_size = 30
+text = "How to play:
+WASD to fly ship
+Dodge the (tiny) aliens and 
+"
+
+[node name="Label4" type="Label" parent="StartMenu/Label"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -91.0
+offset_right = 627.0
+offset_bottom = 128.0
+grow_vertical = 0
+theme_override_constants/line_spacing = 17
+theme_override_font_sizes/font_size = 30
+text = "
+(not so tiny) space debris
+If you take 5 hits, you will fall to the aliens...
+Try to make it to the next satellite!"
+
+[node name="NameLabel" type="Label" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -243.0
+offset_top = -261.0
+offset_right = 243.0
+offset_bottom = -151.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 80
+text = "ASTRAL PLUNGE"
+
+[node name="Label3" type="Label" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -293.0
+offset_top = -41.0
+offset_right = -17.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 20
+text = "By Adam Gallina for Ludum Dare 56"
+
+[node name="CheckButton" type="CheckButton" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -86.0
+offset_right = -166.0
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+button_pressed = true
+
+[node name="Label" type="Label" parent="StartMenu/CheckButton"]
+layout_mode = 0
+offset_left = 46.0
+offset_right = 209.0
+offset_bottom = 23.0
+text = "Invert ship controls"
+
+[node name="WinMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="WinMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Play again?"
+
+[node name="Label" type="Label" parent="WinMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -259.5
+offset_top = -206.41
+offset_right = 259.5
+offset_bottom = -96.41
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 80
+text = "You survived!"
+
+[node name="DeathMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="DeathMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Try again?"
+
+[node name="Label" type="Label" parent="DeathMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -259.5
+offset_top = -206.41
+offset_right = 259.5
+offset_bottom = -96.41
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.223529, 0, 0.156863, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 80
+text = "You were consumed..."
+
+[connection signal="button_up" from="StartMenu/Button" to="." method="start_game"]
+[connection signal="toggled" from="StartMenu/CheckButton" to="PlayerShip" method="_on_invert_controls_toggled"]
+[connection signal="button_up" from="WinMenu/Button" to="." method="restart_game"]
+[connection signal="button_up" from="DeathMenu/Button" to="." method="restart_game"]

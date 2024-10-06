@@ -1,0 +1,107 @@
+[gd_scene load_steps=4 format=3 uid="uid://d37qwonw00sfv"]
+
+[ext_resource type="PackedScene" uid="uid://br2066tmfh54s" path="res://Door/Wall.glb" id="1_by3y1"]
+[ext_resource type="PackedScene" uid="uid://ojem6kvo5vix" path="res://Door/DoorPanel.glb" id="2_aqf4j"]
+
+[sub_resource type="GDScript" id="GDScript_agf3k"]
+script/source = "extends Node3D
+
+@onready var panels : Array = $Panels.get_children()
+@export var StartOpen = true
+
+var _start_time = 0
+var _time = -1
+# -1 for open, 1 for close
+var _dir = 1
+
+@export var MaxRotation = -60
+
+func _ready():
+	if StartOpen:
+		for i in panels:
+			i.get_child(0).rotation.x = deg_to_rad(MaxRotation)
+		
+		
+func _process(delta):
+	if _time == -1: return
+	
+	_time -= delta
+	
+	var t = _time / _start_time
+	if _dir == -1: t = 1 - t
+	
+	if t < 0:
+		t = 0
+		_time = -1
+	elif  t > 1:
+		t = 1
+		_time = -1
+	
+	var r = deg_to_rad(MaxRotation) * t
+	for i in panels:
+		i.get_child(0).rotation.x = r
+	
+
+func open(duration:float):
+	_dir = -1
+	_time = duration
+	_start_time = duration
+	
+func close(duration:float):
+	_dir = 1
+	_time = duration
+	_start_time = duration
+"
+
+[node name="Door" type="Node3D"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
+script = SubResource("GDScript_agf3k")
+
+[node name="Wall" parent="." instance=ExtResource("1_by3y1")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -0.0319268, 0, -0.0319268)
+
+[node name="Wall2" parent="." instance=ExtResource("1_by3y1")]
+transform = Transform3D(1.31134e-07, -8.74228e-08, -1, -2.42009e-22, -1, 8.74228e-08, -1, -1.14641e-14, -1.31134e-07, -0.0319268, 0, -0.0319268)
+
+[node name="Panels" type="Node3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -0.0319269, 0, 0.0638537)
+
+[node name="Node3D" type="Node3D" parent="Panels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.00413, 0.835053)
+
+[node name="DoorPanel" parent="Panels/Node3D" instance=ExtResource("2_aqf4j")]
+
+[node name="Node3D2" type="Node3D" parent="Panels"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -2.01172, -0.789505)
+
+[node name="DoorPanel" parent="Panels/Node3D2" instance=ExtResource("2_aqf4j")]
+
+[node name="Node3D3" type="Node3D" parent="Panels"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.869215, -1.97756)
+
+[node name="DoorPanel" parent="Panels/Node3D3" instance=ExtResource("2_aqf4j")]
+
+[node name="Node3D4" type="Node3D" parent="Panels"]
+transform = Transform3D(1, 0, 0, 0, -0.707107, -0.707107, 0, 0.707107, -0.707107, 0, 0.755343, -1.98515)
+
+[node name="DoorPanel" parent="Panels/Node3D4" instance=ExtResource("2_aqf4j")]
+
+[node name="Node3D5" type="Node3D" parent="Panels"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 1.87854, -0.816405)
+
+[node name="DoorPanel" parent="Panels/Node3D5" instance=ExtResource("2_aqf4j")]
+
+[node name="Node3D6" type="Node3D" parent="Panels"]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 1.88613, 0.808153)
+
+[node name="DoorPanel" parent="Panels/Node3D6" instance=ExtResource("2_aqf4j")]
+
+[node name="Node3D7" type="Node3D" parent="Panels"]
+transform = Transform3D(1, 0, 0, 0, 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0.743625, 1.9962)
+
+[node name="DoorPanel" parent="Panels/Node3D7" instance=ExtResource("2_aqf4j")]
+
+[node name="Node3D8" type="Node3D" parent="Panels"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, -0.880933, 2.0038)
+
+[node name="DoorPanel" parent="Panels/Node3D8" instance=ExtResource("2_aqf4j")]
