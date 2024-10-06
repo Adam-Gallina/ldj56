@@ -9,6 +9,7 @@ script = ExtResource("1_bdi83")
 [node name="Camera3D" type="Camera3D" parent="."]
 current = true
 script = ExtResource("2_bepfa")
+CamSpeed = 0.0
 
 [node name="InteractionRayCast" type="RayCast3D" parent="Camera3D"]
 unique_name_in_owner = true

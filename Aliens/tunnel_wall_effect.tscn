@@ -1,13 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjpnngd0pplav"]
+[gd_scene load_steps=9 format=3 uid="uid://bjpnngd0pplav"]
 
 [ext_resource type="ArrayMesh" uid="uid://dh6gop8uwdcp8" path="res://Aliens/Alien_med.res" id="1_x47o2"]
-[ext_resource type="ArrayMesh" uid="uid://cqm2t12dkfj3m" path="res://Aliens/Alien_low.res" id="2_i2ffn"]
+[ext_resource type="Texture2D" uid="uid://dfs7drn6f6csc" path="res://Aliens/purp_alien.png" id="2_jx5bj"]
+[ext_resource type="Material" uid="uid://6tnrvwb8n77" path="res://Aliens/alien_background_mat.tres" id="3_1fypu"]
+[ext_resource type="Script" path="res://Tunnel/death_barrier.gd" id="4_2rcv5"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qb2jg"]
-albedo_color = Color(0.337255, 0.113725, 0.301961, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_27pvt"]
+transparency = 1
+albedo_texture = ExtResource("2_jx5bj")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vvsa5"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_nkh7l"]
-size = Vector2(80, 80)
+size = Vector2(80, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cl2aa"]
+size = Vector3(80, 100, 1)
 
 [node name="TunnelWallEffect" type="CPUParticles3D"]
 cast_shadow = 0
@@ -29,8 +37,8 @@ scale_amount_min = 0.15
 scale_amount_max = 0.5
 
 [node name="Background" type="CPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.8456)
-visible = false
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 10.8456)
+material_override = SubResource("StandardMaterial3D_27pvt")
 cast_shadow = 0
 gi_mode = 0
 emitting = false
@@ -38,7 +46,7 @@ amount = 450
 lifetime = 1.75
 fixed_fps = 30
 fract_delta = false
-mesh = ExtResource("2_i2ffn")
+mesh = SubResource("QuadMesh_vvsa5")
 emission_shape = 3
 emission_box_extents = Vector3(30, 5, 10)
 direction = Vector3(0, 1, 0)
@@ -46,10 +54,21 @@ spread = 0.0
 gravity = Vector3(0, 0, 0)
 initial_velocity_min = 20.0
 initial_velocity_max = 50.0
-scale_amount_min = 0.25
-scale_amount_max = 0.75
+scale_amount_min = 5.0
+scale_amount_max = 8.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 30, 37.148)
-material_override = SubResource("StandardMaterial3D_qb2jg")
+material_override = ExtResource("3_1fypu")
 mesh = SubResource("QuadMesh_nkh7l")
+
+[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+collision_layer = 4
+collision_mask = 48
+script = ExtResource("4_2rcv5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_cl2aa")
+
+[connection signal="area_entered" from="MeshInstance3D/Area3D" to="MeshInstance3D/Area3D" method="_on_area_entered"]

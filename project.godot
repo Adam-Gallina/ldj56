@@ -61,6 +61,7 @@ input_select={
 
 3d_physics/layer_1="Enemies"
 3d_physics/layer_2="Debris"
+3d_physics/layer_3="Death Barrier"
 3d_physics/layer_5="Ship"
 3d_physics/layer_6="Ship Interactive"
 

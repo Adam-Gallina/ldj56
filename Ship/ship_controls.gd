@@ -5,6 +5,10 @@ extends RigidBody3D
 
 @export var TurnAccel : float
 
+@export var MaxHealth = 5
+@onready var _health = MaxHealth
+var _dead = false
+
 @onready var invincibility_timer : Timer = get_node('%InvincibilityTimer')
 var _can_hit = true
 
@@ -27,15 +31,34 @@ func _physics_process(delta):
     
     linear_velocity = transform.basis.z * MinSpeed
 
-func _on_area_3d_area_entered(area:Area3D):
-    if not _can_hit: return
 
-    print('Hit by ', area)
+func _on_hit() -> bool:
+    if not _can_hit: return false
+
     invincibility_timer.start()
+    _health -= 1
+
+    $AlienPositions.show_alien()
+
+    if _health <= 0:
+        _death()
+
+    return true
+
+func _death():
+    if _dead: return
+
+    _dead = true
+    $DeathAlienPositions.reveal()
+    $CPUParticles3D.emitting = true
+    $CPUParticles3D/MeshInstance3D.show()
+
 
 func _on_invincibility_timer_timeout():
     _can_hit = true
 
+func _on_area_3d_area_entered(_area:Area3D):
+    _on_hit()
 
-func _on_area_3d_body_entered(body:Node3D):
-    print('body ', body)
+func _on_area_3d_body_entered(_body:Node3D):
+    _on_hit()

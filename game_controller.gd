@@ -68,7 +68,7 @@ func start_game():
 
 func _process(delta):
     if player.global_position.distance_to(_curr_segment.end_pos) < path_gen.PathRadius:
-        _curr_segment = path_gen.increment_segment()
+        _curr_segment = path_gen.increment_segment(ActiveSegments, ExtraSegments)
 
     _next_attack -= delta
     if _next_attack <= 0:

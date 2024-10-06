@@ -1,9 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://ds2fukmyfb884"]
+[gd_scene load_steps=6 format=3 uid="uid://ds2fukmyfb884"]
+
+[ext_resource type="Material" uid="uid://6tnrvwb8n77" path="res://Aliens/alien_background_mat.tres" id="1_yjajj"]
+[ext_resource type="ArrayMesh" uid="uid://dh6gop8uwdcp8" path="res://Aliens/Alien_med.res" id="2_jafnq"]
+[ext_resource type="ArrayMesh" uid="uid://cqm2t12dkfj3m" path="res://Aliens/Alien_low.res" id="3_got20"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_e24kd"]
-top_radius = 7.0
-bottom_radius = 8.0
-height = 10.0
+material = ExtResource("1_yjajj")
+top_radius = 2.0
+bottom_radius = 2.0
+height = 24.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_84fes"]
 height = 10.0
@@ -22,3 +27,55 @@ collision_mask = 16
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("CylinderShape3D_84fes")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 40
+lifetime = 20.0
+explosiveness = 1.0
+local_coords = true
+mesh = ExtResource("2_jafnq")
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 20.0
+emission_ring_radius = 5.0
+emission_ring_inner_radius = 4.0
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+direction = Vector3(0, 0, -1)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 0.1
+angular_velocity_min = -0.5
+angular_velocity_max = 0.5
+tangential_accel_min = -0.1
+tangential_accel_max = -0.1
+scale_amount_min = 0.35
+scale_amount_max = 0.8
+
+[node name="CPUParticles3D2" type="CPUParticles3D" parent="."]
+cast_shadow = 0
+amount = 400
+lifetime = 20.0
+explosiveness = 1.0
+local_coords = true
+mesh = ExtResource("3_got20")
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 20.0
+emission_ring_radius = 4.0
+emission_ring_inner_radius = 2.0
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+direction = Vector3(0, 0, -1)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 0.1
+angular_velocity_min = -0.1
+angular_velocity_max = 0.1
+tangential_accel_min = -0.1
+tangential_accel_max = -0.1
+scale_amount_min = 0.15
+scale_amount_max = 0.5

@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyrnroyjrmhkq"]
+
+[ext_resource type="PackedScene" uid="uid://b7xo5eo7w61sr" path="res://Aliens/Creature_High.glb" id="1_d183c"]
+
+[sub_resource type="GDScript" id="GDScript_o6iqd"]
+script/source = "extends Node3D
+
+func _ready():
+	$AnimationPlayer.play('Wriggle')
+"
+
+[node name="Creature_High" instance=ExtResource("1_d183c")]
+script = SubResource("GDScript_o6iqd")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/position = Vector3(-0.00708691, -2.00992, -0.425013)
+bones/2/position = Vector3(1.05219, -1.54442, -0.180183)
+bones/2/rotation = Quaternion(0.999658, 0.0225471, 0.0123574, 0.00471606)
+bones/3/rotation = Quaternion(0.0179197, 0.0120776, 0.0460743, 0.998704)
+bones/4/rotation = Quaternion(0.0312938, -0.0293334, 0.173121, 0.983966)
+bones/5/rotation = Quaternion(0.0209401, -0.01842, 0.0613111, 0.997729)
+bones/6/position = Vector3(0.616266, -1.7056, 0.383606)
+bones/6/rotation = Quaternion(0.999534, 0.0305056, -0.00120967, 0.000575105)
+bones/7/rotation = Quaternion(-0.00335735, -0.00245969, -0.0907705, 0.995863)
+bones/8/rotation = Quaternion(0.0633835, 0.0146432, -0.0286959, 0.997469)
+bones/9/rotation = Quaternion(0.0904211, 0.0115186, -0.0498673, 0.994588)
+bones/10/position = Vector3(-0.572794, -1.71423, 0.349414)
+bones/10/rotation = Quaternion(0.999016, -0.0319996, -0.00937739, 0.0292559)
+bones/11/rotation = Quaternion(-0.0423041, -0.00663297, 0.0744845, 0.996302)
+bones/12/rotation = Quaternion(0.0209792, -0.00371925, 0.0897925, 0.995733)
+bones/13/rotation = Quaternion(0.0678719, -0.00536465, 0.124169, 0.989923)
+bones/14/position = Vector3(-1.13991, -1.29967, -0.212806)
+bones/14/rotation = Quaternion(0.998201, -0.0567082, -0.0165281, -0.0103259)
+bones/15/rotation = Quaternion(0.0284292, -0.0402664, -0.0160813, 0.998655)
+bones/16/rotation = Quaternion(0.00459069, -0.0289936, -0.0974299, 0.994809)
+bones/17/rotation = Quaternion(0.00117866, -0.0264061, -0.0405867, 0.998826)
+bones/18/rotation = Quaternion(-0.707107, 0, 0, 0.707107)
+
+[node name="AnimationPlayer" parent="." index="1"]
+reset_on_save = false
+speed_scale = 1.25
