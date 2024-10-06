@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dqeno0n7savjs"
-path="res://.godot/imported/Ship_Gun.glb-acc3f1b80fb03c5e7a46e58416864d9b.scn"
+uid="uid://c33ysxvxsflwi"
+path="res://.godot/imported/Cockpit_Steering.glb-f893bfd70d41dec5a295c27c11e8a003.scn"
 
 [deps]
 
-source_file="res://Ship/Ship_Gun.glb"
-dest_files=["res://.godot/imported/Ship_Gun.glb-acc3f1b80fb03c5e7a46e58416864d9b.scn"]
+source_file="res://Ship/Model/Cockpit_Steering.glb"
+dest_files=["res://.godot/imported/Cockpit_Steering.glb-f893bfd70d41dec5a295c27c11e8a003.scn"]
 
 [params]
 

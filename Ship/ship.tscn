@@ -1,25 +1,34 @@
-[gd_scene load_steps=11 format=3 uid="uid://dj6u6rc3s4722"]
+[gd_scene load_steps=17 format=3 uid="uid://dj6u6rc3s4722"]
 
 [ext_resource type="Script" path="res://Ship/ship_controls.gd" id="1_yjlcn"]
-[ext_resource type="PackedScene" uid="uid://covtchtsxv2rj" path="res://Ship/Ship_NoGun.glb" id="2_tolwi"]
-[ext_resource type="PackedScene" uid="uid://dqeno0n7savjs" path="res://Ship/Ship_Gun.glb" id="3_hxn21"]
-[ext_resource type="Script" path="res://Ship/gun_controls.gd" id="3_j4hhl"]
+[ext_resource type="PackedScene" uid="uid://covtchtsxv2rj" path="res://Ship/Model/Ship_NoGun.glb" id="2_a21gr"]
+[ext_resource type="PackedScene" uid="uid://dqeno0n7savjs" path="res://Ship/Model/Ship_Gun.glb" id="3_vj01m"]
+[ext_resource type="PackedScene" uid="uid://oafwefdr7emu" path="res://Ship/Model/Cockpit.glb" id="4_oj4vl"]
+[ext_resource type="PackedScene" uid="uid://8ond6t8eieh3" path="res://Ship/Model/Cockpit_Light.glb" id="5_0gktd"]
 [ext_resource type="PackedScene" uid="uid://2vn130y13nm" path="res://Ship/Player/player.tscn" id="5_rbt8u"]
 [ext_resource type="Script" path="res://Ship/interactive.gd" id="6_2eubl"]
+[ext_resource type="PackedScene" uid="uid://c33ysxvxsflwi" path="res://Ship/Model/Cockpit_Steering.glb" id="7_0twe6"]
+[ext_resource type="Script" path="res://Ship/EnergyPanel.gd" id="8_qfucs"]
+[ext_resource type="Material" uid="uid://cp3m1wkmuqhr6" path="res://Ship/energy_button_active.tres" id="9_51oge"]
+[ext_resource type="Material" uid="uid://0ucoc47fgjpp" path="res://Ship/energy_button_inactive.tres" id="10_eam4q"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mtawh"]
 radius = 5.66975
 height = 11.3395
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dfxar"]
-radius = 0.151335
-height = 0.576493
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hhtv1"]
+albedo_color = Color(0.160784, 0.160784, 0.160784, 1)
+metallic = 0.56
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_rjh05"]
-size = Vector3(1.30273, 0.142578, 1.17047)
+[sub_resource type="BoxMesh" id="BoxMesh_cukol"]
+size = Vector3(0.6, 0.4, 0.01)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_n766g"]
-viewport_path = NodePath("Model/Guns/GunCamViewport")
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_iw7yb"]
+height = 0.1
+radius = 0.05
+
+[sub_resource type="BoxMesh" id="BoxMesh_wu8i2"]
+size = Vector3(0.05, 0.05, 0.05)
 
 [node name="Ship" type="RigidBody3D"]
 collision_layer = 16
@@ -41,89 +50,66 @@ collision_mask = 3
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.439745)
 shape = SubResource("CapsuleShape3D_mtawh")
 
-[node name="Model" parent="." instance=ExtResource("2_tolwi")]
+[node name="FrontLight" type="SpotLight3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 2.78426)
+spot_range = 200.0
+spot_attenuation = 0.307786
+spot_angle = 70.0
 
-[node name="Guns" type="Node3D" parent="Model" node_paths=PackedStringArray("GunOrigins")]
-script = ExtResource("3_j4hhl")
-RotationSpeed = 1.25
-GunOrigins = [NodePath("Gun_L"), NodePath("Gun_R")]
+[node name="Model" parent="." instance=ExtResource("2_a21gr")]
 
-[node name="GunCamPivot" type="RemoteTransform3D" parent="Model/Guns"]
-unique_name_in_owner = true
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 2.87293, -3.10462)
-remote_path = NodePath("../GunCamViewport/GunCam")
-update_scale = false
-
-[node name="GunCamViewport" type="SubViewport" parent="Model/Guns"]
-
-[node name="GunCam" type="Camera3D" parent="Model/Guns/GunCamViewport"]
-transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 0, 2.87293, -3.10462)
-
-[node name="GunRayCast" type="RayCast3D" parent="Model/Guns/GunCamViewport/GunCam"]
-unique_name_in_owner = true
-target_position = Vector3(0, 0, -500)
-
-[node name="Gun_L" parent="Model/Guns" instance=ExtResource("3_hxn21")]
+[node name="Gun_L" parent="Model" instance=ExtResource("3_vj01m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.92852, 0.741354, -0.934406)
 
-[node name="Gun_R" parent="Model/Guns" instance=ExtResource("3_hxn21")]
+[node name="Gun_R" parent="Model" instance=ExtResource("3_vj01m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.929, 0.741, -0.934)
+
+[node name="Cockpit" parent="Model" instance=ExtResource("4_oj4vl")]
+
+[node name="Cockpit_Light" parent="Model/Cockpit" instance=ExtResource("5_0gktd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.164994)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Model/Cockpit/Cockpit_Light"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.96046e-08, 0.531827, 0.442641)
+omni_range = 2.25
+
+[node name="Cockpit_Steering" parent="." instance=ExtResource("7_0twe6")]
+transform = Transform3D(1, 0, 0, 0, 0.769622, 0.638499, 0, -0.638499, 0.769622, 0, -0.915367, 0.0909652)
 
 [node name="Player Position" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.500076, 0.40535)
 
 [node name="Player" parent="Player Position" instance=ExtResource("5_rbt8u")]
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96046e-08, 0.792523, 0.218585)
-omni_range = 2.50089
-omni_attenuation = 0.183011
-
-[node name="ShipControlsColl" type="StaticBody3D" parent="." node_paths=PackedStringArray("InteractionTarget")]
-transform = Transform3D(1, 0, 0, 0, -0.243666, 0.969859, 0, -0.969859, -0.243666, 0.0195959, 0.0336256, 1.45727)
-collision_layer = 32
-collision_mask = 0
-script = ExtResource("6_2eubl")
-InteractionTarget = NodePath("..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ShipControlsColl"]
-transform = Transform3D(1, 0, 0, 0, -4.47035e-08, -1, 0, 1, -4.47035e-08, 0, 0, 0)
-shape = SubResource("CapsuleShape3D_dfxar")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="ShipControlsColl"]
-size = Vector3(0.0768433, 0.0420837, 0.439331)
-
-[node name="GunControlsColl" type="StaticBody3D" parent="." node_paths=PackedStringArray("InteractionTarget")]
-transform = Transform3D(1, 0, 0, 0, 0.104372, 0.994538, 0, -0.994538, 0.104372, -0.0325282, 0.524557, -0.879572)
-visible = false
-collision_layer = 32
-collision_mask = 0
-script = ExtResource("6_2eubl")
-InteractionTarget = NodePath("../Model/Guns")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GunControlsColl"]
-transform = Transform3D(1, 0, 0, 0, 1, -2.5332e-07, 0, 2.5332e-07, 1, 0.0117188, -0.0214837, -0.0021055)
-shape = SubResource("BoxShape3D_rjh05")
-
-[node name="Sprite3D" type="Sprite3D" parent="GunControlsColl"]
-transform = Transform3D(1, 0, 0, 0, -5.96046e-08, -1, 0, 1, -5.96046e-08, -0.0341115, -0.0667017, -0.0222934)
-pixel_size = 0.002
-texture = SubResource("ViewportTexture_n766g")
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="GunControlsColl"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78814e-07, -2.98023e-08)
-size = Vector3(1.22485, 0.034668, 1)
-
-[node name="SpotLight3D5" type="SpotLight3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 2.78426)
-spot_range = 200.0
-spot_attenuation = 0.307786
-spot_angle = 70.0
-
 [node name="InvincibilityTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.5
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.699663, 0.240845, 0.672655, 0, 0.941471, -0.337095, -0.714473, 0.235853, 0.658712, 0.647397, -0.0676668, 1.07246)
+material_override = SubResource("StandardMaterial3D_hhtv1")
+mesh = SubResource("BoxMesh_cukol")
+script = ExtResource("8_qfucs")
+ButtonActive = ExtResource("9_51oge")
+ButtonInactive = ExtResource("10_eam4q")
+
+[node name="ButtonBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+transform = Transform3D(1, -2.98023e-08, 0, -1.49012e-08, 1, -1.49012e-08, 2.98023e-08, 4.47035e-08, 1, 0, 0, 0)
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("6_2eubl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/ButtonBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_iw7yb")
+
+[node name="Model" type="MeshInstance3D" parent="MeshInstance3D/ButtonBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 2.98023e-08, -1.49012e-08, 1, 0, 0, 0)
+material_override = ExtResource("10_eam4q")
+mesh = SubResource("BoxMesh_wu8i2")
+skeleton = NodePath("../..")
+
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]
+[connection signal="on_interact" from="MeshInstance3D/ButtonBody3D" to="MeshInstance3D" method="_on_button_body_3d_on_interact"]

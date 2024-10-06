@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://covtchtsxv2rj"
-path="res://.godot/imported/Ship_NoGun.glb-3aae996c3348387283534cac186f5d81.scn"
+uid="uid://byxrrfogk805a"
+path="res://.godot/imported/Ship.glb-3017d156121eb39b6fcd2912380da2af.scn"
 
 [deps]
 
-source_file="res://Ship/Ship_NoGun.glb"
-dest_files=["res://.godot/imported/Ship_NoGun.glb-3aae996c3348387283534cac186f5d81.scn"]
+source_file="res://Ship/Model/Ship.glb"
+dest_files=["res://.godot/imported/Ship.glb-3017d156121eb39b6fcd2912380da2af.scn"]
 
 [params]
 

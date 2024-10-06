@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://byxrrfogk805a"
-path="res://.godot/imported/Ship.glb-6be4129c4f99a9c99967cd39ba910627.scn"
+uid="uid://oafwefdr7emu"
+path="res://.godot/imported/Cockpit.glb-be393d9c2f333ff13057b1a497230e3e.scn"
 
 [deps]
 
-source_file="res://Ship/Ship.glb"
-dest_files=["res://.godot/imported/Ship.glb-6be4129c4f99a9c99967cd39ba910627.scn"]
+source_file="res://Ship/Model/Cockpit.glb"
+dest_files=["res://.godot/imported/Cockpit.glb-be393d9c2f333ff13057b1a497230e3e.scn"]
 
 [params]
 

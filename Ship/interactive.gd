@@ -1,4 +1,7 @@
 extends StaticBody3D
 class_name Interactive
 
-@export var InteractionTarget : Node3D
+signal on_interact(button:Node3D)
+
+func interact():
+    on_interact.emit(self)
