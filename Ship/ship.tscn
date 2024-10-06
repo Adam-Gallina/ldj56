@@ -197,10 +197,10 @@ transform = Transform3D(-0.0872771, -0.0131745, 0.0470014, 0.0272718, -0.0930198
 
 [node name="DeathAlienPositions" type="Node3D" parent="."]
 script = SubResource("GDScript_4ucug")
-show_step = 0.25
+show_step = 0.35
 
 [node name="Timer" type="Timer" parent="DeathAlienPositions"]
-wait_time = 0.2
+wait_time = 0.15
 
 [node name="BotLeft" type="Node3D" parent="DeathAlienPositions"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 1.06733, 1.19209e-07, 1.3803)
@@ -524,7 +524,6 @@ scale_amount_max = 0.25
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CPUParticles3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 200)
-visible = false
 material_override = ExtResource("14_174mg")
 mesh = SubResource("PlaneMesh_spvap")
 

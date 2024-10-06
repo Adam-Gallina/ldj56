@@ -19,6 +19,7 @@ PathRadius = 80.0
 
 [node name="PlayerShip" parent="." instance=ExtResource("1_6sloi")]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -300)
 
 [node name="AttackSpawner" parent="." instance=ExtResource("4_dc0at")]
 unique_name_in_owner = true
